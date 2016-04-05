@@ -1,0 +1,167 @@
+@font-face {
+    font-family: "keyboard";
+    src: url("keyboard.woff") format('woff');
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+html, body {
+	font-family: "keyboard", monospace;
+}
+
+.screen {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.keyboard {
+	display: flex;
+	flex-direction: column;
+	flex: 1 100%;
+}
+
+.keyrow {
+	display: flex;
+	flex: 1 100%;
+}
+
+.key {
+	flex: 1 100%;
+
+	font-size: 10vh;
+	font-weight: bolder;
+	text-align: center;
+
+	color: white;
+	background-color: black;
+	border: 1px solid white;
+	cursor: pointer;
+}
+.key + .alt.key {
+	display: none;
+}
+.key.alt-selected {
+	background-color: green;
+	border-color: red;
+}
+.double.key {
+	flex: 1 200%;
+}
+.triple.key {
+	flex: 1 300%;
+}
+.small.keyrow {
+	max-height: 15vh;
+}
+.small-label {
+	font-family: "Segoe UI", Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 5vh;
+}
+
+/* Configuration: Style your keyboards however you wish. */
+[data-screen="alphabet-lowercase"] { color: yellow; }
+[data-screen="alphabet-uppercase-quick"] { color: red; }
+[data-screen="alphabet-uppercase"] { color: darkred; }
+[data-screen="alphabet-number-quick"] { color: blue; }
+[data-screen="alphabet-number"] { color: darkblue; }
+[data-screen="alphabet-arrow-quick"] { color: green; }
+[data-screen="alphabet-arrow"] { color: darkgreen; }
+[data-screen="alphabet-symbols-quick"] { color: gray; }
+[data-screen="alphabet-symbols"] { color: darkgray; }
+
+.animation {
+	will-change: transform;
+	position: fixed;
+	pointer-events: none;
+}
+
+@keyframes touch-animation-keyframes {
+	0% {
+		transform: scale(3) translateY(33%);
+	}
+	100% {
+		transform: scale(2) translateY(25%);
+	}
+}
+
+@keyframes touch-animation-end-keyframes {
+	0% {
+		transform: scale(2) translateY(25%);
+	}
+	25% {
+		opacity: 1;
+		background-color: white;
+		transform: scale(1) translateY(25%);
+	}
+	50% {
+		opacity: 0.9;
+		background-color: transparent;
+	}
+	95% {
+		opacity: 0.8;
+	}
+	100% {
+		opacity: 0.4;
+		background-color: transparent;
+		transform: translateY(calc(100vh - 1.25em));
+	}
+}
+
+.touch.animation {
+	color: #f00;
+	background-color: white;
+	/* To keep the content area in the same position after removing the border,
+	   add margin of the same width as the border that was removed. */
+	margin: 1px;
+	border-style: none;
+}
+
+.touch.animation.start {
+	animation: touch-animation-keyframes .15s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+.touch.animation.end {
+	animation: touch-animation-end-keyframes .75s;
+	animation-timing-function: linear;
+	animation-fill-mode: both;
+}
+
+/* Applied to animated <div>'s when:
+   Request sent to server and response not yet received. */
+.touch.animation.live {
+	margin: 0 0 1px 0;
+	border-style: none none solid none;
+	border-bottom-color: red;
+	border-bottom-width: .1em;
+}
+
+.touch.animation.alt-selected {
+	outline: .2em solid green;
+}
+
+@keyframes screen-animation-keyframes {
+	0% {
+		opacity: 0.5;
+		transform: translateY(1%);
+	}
+	15% {
+		transform: translateY(0);
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.screen {
+	animation: screen-animation-keyframes .25s;
+	animation-timing-function: ease-out;
+}

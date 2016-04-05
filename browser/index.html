@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>MobileWebPcControl</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<script type="text/javascript" src="/lib/jquery-2.2.2.min.js"></script>
+	<script type="text/javascript" src="./configuration.js"></script>
+	<script type="text/javascript" src="./animation.js"></script>
+	<script type="text/javascript" src="./fullscreen.js"></script>
+	<script type="text/javascript" src="./beep.js"></script>
+	<script type="text/javascript" src="./vibrate.js"></script>
+	<script type="text/javascript" src="./keyboard.js"></script>
+	<script type="text/javascript" src="./index.js"></script>
+</head>
+<body>
+	<div id="fullscreen">
+		Loading screens...
+	</div>
+	<script type="text/javascript">
+		// Load screens from the configuration directory.
+		$('#fullscreen').load('/screens', function () {
+			// Start with the lowercase alphabet screen.
+			$('.screen').not('#screen-alphabet-lowercase').hide();
+		});
+	</script>
+</body>
+</html>
