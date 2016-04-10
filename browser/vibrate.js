@@ -1,14 +1,19 @@
 'use strict';
 
-// Vibrate the device when a key is touched.
-var vibrate;
-$(function () {
-	if (typeof navigator.vibrate === 'function') {
-		vibrate = function () {
+// Vibrate the device.
+const vibrate = (
+	(() => {
+		if (typeof navigator.vibrate !== 'function') {
+			console.log("'navigator.vibrate' is not a function.");
+			return;
+		}
+		return function () {
 			navigator.vibrate(15);
 		};
-	} else {
-		console.log("Cannot vibrate on this device or browser.");
-		vibrate = function () {};
-	}
-});
+	})()
+||
+	(() => {
+		console.log("Vibration disabled.");
+		return () => {};
+	})()
+);

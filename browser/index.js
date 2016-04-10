@@ -1,9 +1,10 @@
 'use strict';
 
-$(function() {
+$(() => {
 	// Configuration: Do you want to enter fullscreen mode?
 	// Always enter fullscreen mode on mobile devices.
-	$('body').on('touchstart', function () { $('#fullscreen').fullscreen() });
+	$('body > div').on('touchstart', () => {
+		$('#fullscreen').fullscreen() });
 });
 
 // Recognized element attributes:
@@ -14,7 +15,7 @@ function runElementCommands(element) {
 	if (typeof text === 'string') {
 		const animation = getAnimationElement(element);
 		animation.addClass('live');
-		typeText(text).done(function () {
+		typeText(text).done(() => {
 			animation.removeClass('live');
 			try {
 				onTyped()

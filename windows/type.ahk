@@ -1,4 +1,4 @@
-﻿#NoEnv
+#NoEnv
 #SingleInstance, Off
 
 SendMode Input
@@ -9,7 +9,7 @@ stdin := FileOpen("*", "r`n")
 
 Loop
 {
-    line := stdin.ReadLine()
-    line := RegExReplace(line, "\r?\n$", "")
-    Send % line
+	line := stdin.ReadLine()
+	line := RegExReplace(line, "\r?\n$", "")
+	Send % line
 }

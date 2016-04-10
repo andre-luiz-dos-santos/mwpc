@@ -1,6 +1,6 @@
 'use strict';
 
-(function ($) {
+(($) => {
 	// Make the selected elements full screen.
 	$.fn.fullscreen = function () {
 		return this.each(function () {
@@ -13,4 +13,4 @@
 			}
 		});
 	}
-}(jQuery));
+})(jQuery);

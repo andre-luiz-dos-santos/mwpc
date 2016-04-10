@@ -9,12 +9,12 @@ function animateKeyElement(animationName, element) {
 	element.data('animation', clone);
 }
 
-// Return true after 'startAnimation' is called, and before 'stopAnimation'.
+// Return true after ‘startAnimation’ and before ‘stopAnimation’ is called.
 function hasAnimationElement(element) {
 	return element.data('animation') != null;
 }
 
-// Return the animation element until 'stopAnimation' is called.
+// Return jQuery object with the animation element or empty.
 function getAnimationElement(element) {
 	return element.data('animation') || $();
 }
@@ -28,5 +28,5 @@ function stopAnimation(element) {
 	animation.removeClass('start');
 	animation.addClass('end');
 	element.removeData('animation');
-	setTimeout(function() { animation.remove() }, 1500);
+	setTimeout(() => { animation.remove() }, 1500);
 }

@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
 app.get('/screens', function (req, res) {
 	fs.readdirSync(`${__dirname}/../configuration`).forEach(fileName => {
 		if (fileName.startsWith('screen.') && fileName.endsWith('.html')) {
-			let html = fs.readFileSync(`${__dirname}/../configuration/${fileName}`);
+			const html = fs.readFileSync(`${__dirname}/../configuration/${fileName}`);
 			res.write(html);
 		}
 	});

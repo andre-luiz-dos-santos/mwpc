@@ -21,7 +21,7 @@
 	</div>
 	<script type="text/javascript">
 		// Load screens from the configuration directory.
-		$('#fullscreen').load('/screens', function () {
+		$('#fullscreen').load('/screens', () => {
 			// Start with the lowercase alphabet screen.
 			$('.screen').not('#screen-alphabet-lowercase').hide();
 		});

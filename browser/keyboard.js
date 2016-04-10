@@ -1,29 +1,11 @@
 'use strict';
 
-$(function() {
-
-	// Return true if 'element' has an alternative element.
-	var needTimer = function (element) {
-		return element.next('.alt.key').length > 0;
-	}
-
-	var onAltStop; // defined after 'onStop' below
-
-	// Start the element timer that calls 'onAltStop'.
-	var startTimer = function (element) {
-		element.data('timerId', setTimeout(function () {
-			onAltStop(element);
-		}, alternativeActionAfter));
-	}
-
-	var stopTimer = function (element) {
-		clearTimeout(element.data('timerId'));
-	}
-
-	var onStart = function (event, element) {
+$(() => {
+	// ‘element’ was touched or clicked.
+	function onStart(event, element) {
 		if (hasAnimationElement(element) === true) {
-			console.log("Multiple simultaneous press events are not supported.");
-			return; // neither 'onStop' nor 'onAltStop' has been called yet
+			console.log("Multiple simultaneous start events are not supported.");
+			return; // neither ‘onStop’ nor ‘onAltStop’ has been called yet
 		}
 		try {
 			onKeyTouch()
@@ -36,36 +18,24 @@ $(function() {
 		}
 	}
 
-	var onTouchStart = function (event) {
-		event.preventDefault(); // prevent mousedown from firing on touch events
-		var touches = event.originalEvent.changedTouches;
-		for (var i = 0; i < touches.length; i++) {
-			var element = $(touches[i].target);
-			onStart(event, element);
-		}
-	}
-
-	var onMouseDown = function (event) {
-		event.preventDefault(); // prevent drag & drop and selection on mouse events
-		var element = $(event.target);
-		onStart(event, element);
-	}
-
-	var onStop = function (event, element) {
+	// ‘element’ was untouched or unclicked.
+	function onStop(event, element) {
 		if (hasAnimationElement(element) === false) {
-			return; // 'onAltStop' has already run
+			return; // ‘onAltStop’ has already run
 		}
 		runElementCommands(element);
 		stopTimer(element);
 		stopAnimation(element);
 	}
 
-	onAltStop = function (element) {
+	// ‘element’ was touched or clicked for more than ‘alternativeActionAfter’ milliseconds.
+	// Happens only on elements for which ‘needTimer’ returns true.
+	function onAltStop(element) {
 		if (hasAnimationElement(element) === false) {
 			console.log("'onStop' should have stopped the element timer.");
 			return;
 		}
-		var altElement = element.next('.alt.key');
+		const altElement = element.next('.alt.key');
 		if (altElement.length === 0) {
 			console.log("'onStart' should not have started the element timer.");
 			return;
@@ -75,64 +45,87 @@ $(function() {
 		stopAnimation(element);
 	}
 
-	var onTouchEnd = function (event) {
-		event.preventDefault();
-		var touches = event.originalEvent.changedTouches;
-		for (var i = 0; i < touches.length; i++) {
-			var element = $(touches[i].target);
-			onStop(event, element);
-		}
-	}
-
-	var onMouseUp = function (event) {
-		event.preventDefault();
-		var element = $(event.target);
-		onStop(event, element);
-	}
-
-	var onCancel = function (element) {
+	// The mouse button was not released before the mouse pointer left ‘element’.
+	function onCancel(element) {
 		stopTimer(element);
 		stopAnimation(element);
 	}
 
-	var onTouchCancel = function (event) {
+	// Return true if ‘element’ has an alternative element.
+	// ‘startTimer’ should only be called on elements for which this function returns true.
+	function needTimer(element) {
+		return element.next('.alt.key').length > 0;
+	}
+
+	// Start the element timer that calls ‘onAltStop’.
+	function startTimer(element) {
+		element.data('timerId',
+			setTimeout(() => { onAltStop(element) },
+				alternativeActionAfter));
+	}
+
+	// Stop the timer that calls ‘onAltStop’.
+	function stopTimer(element) {
+		clearTimeout(
+			element.data('timerId'));
+	}
+
+	$('body').on('touchstart', '.keyboard .key', onTouchStart);
+	$('body').on('touchend', '.keyboard .key', onTouchEnd);
+	$('body').on('touchcancel', '.keyboard .key', onTouchCancel);
+
+	function onTouchStart(event) {
+		event.preventDefault(); // prevent mousedown from firing on touch events
+		const touches = event.originalEvent.changedTouches;
+		for (const i = 0; i < touches.length; i++) {
+			const element = $(touches[i].target);
+			onStart(event, element);
+		}
+	}
+
+	function onTouchEnd(event) {
 		event.preventDefault();
-		var touches = event.originalEvent.changedTouches;
-		for (var i = 0; i < touches.length; i++) {
-			var element = $(touches[i].target);
+		const touches = event.originalEvent.changedTouches;
+		for (const i = 0; i < touches.length; i++) {
+			const element = $(touches[i].target);
+			onStop(event, element);
+		}
+	}
+
+	function onTouchCancel(event) {
+		event.preventDefault();
+		const touches = event.originalEvent.changedTouches;
+		for (const i = 0; i < touches.length; i++) {
+			const element = $(touches[i].target);
 			onCancel(element);
 		}
 	}
 
-	var onMouseOut = function (event) {
-		event.preventDefault();
-		var element = $(event.target);
-		onCancel(element);
+	$('body').on('mousedown', '.keyboard .key', onMouseDown);
+	$('body').on('mouseup', '.keyboard .key', onMouseUp);
+	$('body').on('mouseout', '.keyboard .key', onMouseOut);
+
+	function onMouseDown(event) {
+		event.preventDefault(); // disables drag & drop and text selection
+		const element = $(event.target);
+		onStart(event, element);
 	}
 
-	$('body').on('touchstart', '.keyboard .key', onTouchStart);
-	$('body').on('mousedown', '.keyboard .key', onMouseDown);
-	$('body').on('touchend', '.keyboard .key', onTouchEnd);
-	$('body').on('mouseup', '.keyboard .key', onMouseUp);
-	$('body').on('touchcancel', '.keyboard .key', onTouchCancel);
-	$('body').on('mouseout', '.keyboard .key', onMouseOut);
+	function onMouseUp(event) {
+		event.preventDefault();
+		const element = $(event.target);
+		onStop(event, element);
+	}
+
+	function onMouseOut(event) {
+		event.preventDefault();
+		const element = $(event.target);
+		onCancel(element);
+	}
 });
 
 // Helper function for keyboard screens.
-const quickKeyboardScreen = (function () {
-
-	const removeSuffix = function (str) {
-		return str.replace(/-quick$/, '');
-	}
-
-	const removeAttrSuffix = function (element, name) {
-		element.attr(name, removeSuffix(element.attr(name)));
-	}
-
-	const screenName = function (element) {
-		return element.attr('id').replace(/^screen-/, '');
-	}
-
+const quickKeyboardScreen = (() => {
 	return function (quick, quicklyBackTo = 'alphabet-lowercase') {
 		const clone = quick.clone(); // permanently uppercase
 		clone.attr('id', removeSuffix(quick.attr('id')));
@@ -142,4 +135,15 @@ const quickKeyboardScreen = (function () {
 		quick.find('.key').not('[data-screen]').attr('data-screen', quicklyBackTo);
 	}
 
-}());
+	function removeSuffix(str) {
+		return str.replace(/-quick$/, '');
+	}
+
+	function removeAttrSuffix(element, name) {
+		element.attr(name, removeSuffix(element.attr(name)));
+	}
+
+	function screenName(element) {
+		return element.attr('id').replace(/^screen-/, '');
+	}
+})();
