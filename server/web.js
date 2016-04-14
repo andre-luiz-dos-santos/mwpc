@@ -1,12 +1,14 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const platform = require('./platform');
+const confdir = path.join(__dirname, '..', 'configuration');
 
-app.use(express.static(`${__dirname}/../configuration`));
+app.use(express.static(confdir));
 app.use(express.static(`${__dirname}/../browser`));
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -15,9 +17,10 @@ app.get('/', function (req, res) {
 });
 
 app.get('/screens', function (req, res) {
-	fs.readdirSync(`${__dirname}/../configuration`).forEach(fileName => {
+	fs.readdirSync(confdir).forEach(fileName => {
 		if (fileName.startsWith('screen.') && fileName.endsWith('.html')) {
-			const html = fs.readFileSync(`${__dirname}/../configuration/${fileName}`);
+			const filePath = path.join(confdir, fileName);
+			const html = fs.readFileSync(filePath);
 			res.write(html);
 		}
 	});
