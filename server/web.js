@@ -4,9 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
+const http = require('http');
+const socketio = require('socket.io');
 const platform = require('./platform');
 const confdir = path.join(__dirname, '..', 'configuration');
+
+const app = express();
+const httpd = http.Server(app);
+const io = socketio(httpd, {pingInterval: 1000, pingTimeout: 2500});
 
 app.use(express.static(confdir));
 app.use(express.static(`${__dirname}/../browser`));
@@ -27,12 +32,13 @@ app.get('/screens', function (req, res) {
 	res.end();
 });
 
-app.post('/type', function (req, res) {
-	const text = req.body.text;
-	platform.type(text);
-	res.json(null);
+io.on('connection', function (socket) {
+	socket.on('type', function (text, callback) {
+		platform.type(text);
+		callback();
+	});
 });
 
-app.listen(3001, function () {
+httpd.listen(3001, function () {
 	console.log('App listening on port 3001!');
 });

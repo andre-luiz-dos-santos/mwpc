@@ -7,6 +7,7 @@
 	<title>MobileWebPcControl</title>
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<script type="text/javascript" src="/lib/jquery-2.2.2.min.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="./configuration.js"></script>
 	<script type="text/javascript" src="./animation.js"></script>
 	<script type="text/javascript" src="./fullscreen.js"></script>
@@ -20,6 +21,7 @@
 		Loading screens...
 	</div>
 	<script type="text/javascript">
+		let socket = io();
 		// Load screens from the configuration directory.
 		$('#fullscreen').load('/screens', () => {
 			// Start with the lowercase alphabet screen.

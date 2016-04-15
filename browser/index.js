@@ -15,7 +15,7 @@ function runElementCommands(element) {
 	if (typeof text === 'string') {
 		const animation = getAnimationElement(element);
 		animation.addClass('live');
-		typeText(text).done(() => {
+		typeText(text, () => {
 			animation.removeClass('live');
 			try {
 				onTyped()
@@ -30,8 +30,8 @@ function runElementCommands(element) {
 	}
 }
 
-function typeText(text) {
-	return $.post('type', {text});
+function typeText(text, callback) {
+	socket.emit('type', text, callback);
 }
 
 function switchScreen(screenName) {
