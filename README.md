@@ -9,13 +9,12 @@ Simulate a keyboard on the PC using a mobile web browser.
 2. Clone this repository and then run:
 
 ```
-cd server
 npm install
 ```
 
 ## Usage
 
-On the `server` directory, run `node web.js`.
+Run `node server/web.js` or `npm start`.
 Then, in the web browser, visit the site on port 3001.
 
 To type an accented letter, touch its base character for 200 milliseconds.

@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const bodyParser = require('body-parser');
 const http = require('http');
 const socketio = require('socket.io');
 const platform = require('./platform');
@@ -15,7 +14,6 @@ const io = socketio(httpd, {pingInterval: 1000, pingTimeout: 2500});
 
 app.use(express.static(confdir));
 app.use(express.static(`${__dirname}/../browser`));
-app.use(bodyParser.urlencoded({extended: false}));
 
 app.get('/', function (req, res) {
 	res.redirect('/index.html');
@@ -37,6 +35,10 @@ io.on('connection', function (socket) {
 		platform.type(text);
 		callback();
 	});
+});
+
+platform.browser(function (event, data) {
+	io.emit(event, data);
 });
 
 httpd.listen(3001, function () {

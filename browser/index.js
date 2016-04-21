@@ -1,5 +1,7 @@
 'use strict';
 
+let socket = io();
+
 $(() => {
 	// Configuration: Do you want to enter fullscreen mode?
 	// Always enter fullscreen mode on mobile devices.
@@ -38,3 +40,7 @@ function switchScreen(screenName) {
 	$('.screen').hide();
 	$(`#screen-${screenName}`).show();
 }
+
+socket.on('screen', (screenName) => {
+	switchScreen(screenName);
+});
