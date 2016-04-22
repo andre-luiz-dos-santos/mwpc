@@ -20,7 +20,7 @@ module.exports = (() => {
 				const event = JSON.parse(line.toString('utf8'));
 				emit(event.name, event.value);
 			} catch (err) {
-				process.stderr.write(`Invalid ${ahkFile} output: ${err}\nOutput: ${data}\n`);
+				process.stderr.write(`Invalid ${ahkFile} output: ${err}\nOutput: ${line}\n`);
 			}
 		});
 	}
