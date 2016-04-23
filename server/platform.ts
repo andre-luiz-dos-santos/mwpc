@@ -1,12 +1,3 @@
-interface IBrowserCallbackFunction {
-	(eventName: string, eventData: any): void;
-}
-
-interface IPlatform {
-	type(text: string): void;
-	browser(callback: IBrowserCallbackFunction): void;
-}
-
 let platform: IPlatform;
 
 switch (process.platform) {

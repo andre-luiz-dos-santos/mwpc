@@ -12,13 +12,13 @@ function runAutohotkey() {
     });
 }
 runAutohotkey();
-function type(text) {
+const main = function (text) {
     if (autohotkey !== undefined) {
         autohotkey.stdin.write(`${text}\n`);
     }
     else {
         process.stdout.write(`AutoHotkey type.ahk process is not running yet.\n`);
     }
-}
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = type;
+exports.default = main;

@@ -15,10 +15,12 @@ function runAutohotkey(): void {
 
 runAutohotkey();
 
-export default function type(text: string): void {
+const main: IPlatformTypeFunction = function (text) {
 	if (autohotkey !== undefined) {
 		autohotkey.stdin.write(`${text}\n`);
 	} else {
 		process.stdout.write(`AutoHotkey type.ahk process is not running yet.\n`);
 	}
 }
+
+export default main;

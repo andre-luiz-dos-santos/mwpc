@@ -26,8 +26,8 @@ fs.readdirSync(__dirname).forEach(fileName => {
         runAutohotkey(fileName);
     }
 });
-function browser(callback) {
+const main = function (callback) {
     emit = callback;
-}
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = browser;
+exports.default = main;

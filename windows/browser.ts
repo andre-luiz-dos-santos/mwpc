@@ -1,21 +1,10 @@
-interface IScriptEvent {
-	name: string;
-	value: string;
-}
-
-interface IBrowserCallbackFunction {
-	(eventName: string, eventData: any): void;
-}
-
-interface IBinarySplitFunction {
-	(): NodeJS.ReadWriteStream;
-}
-
 import * as fs from 'fs';
 import {spawn, ChildProcess} from 'child_process';
-const splitter: IBinarySplitFunction = require('binary-split');
 
-let emit: IBrowserCallbackFunction;
+const splitter: () => NodeJS.ReadWriteStream =
+	require('binary-split');
+
+let emit: IPlatformBrowserCallbackFunction;
 
 function runAutohotkey(ahkFile: string): void {
 	const ahkProcess = spawn('autohotkey.exe', [ahkFile], {
@@ -27,7 +16,8 @@ function runAutohotkey(ahkFile: string): void {
 	});
 	ahkProcess.stdout.pipe(splitter()).on('data', (line: Buffer) => {
 		try {
-			const event: IScriptEvent = JSON.parse(line.toString('utf8'));
+			const event: { name: string, value: string } =
+				JSON.parse(line.toString('utf8'));
 			emit(event.name, event.value);
 		} catch (err) {
 			process.stderr.write(`Invalid ${ahkFile} output: ${err}\nOutput: ${line}\n`);
@@ -41,6 +31,8 @@ fs.readdirSync(__dirname).forEach(fileName => {
 	}
 });
 
-export default function browser(callback: () => void): void {
+const main: IPlatformBrowserFunction = function (callback) {
 	emit = callback;
 }
+
+export default main;
