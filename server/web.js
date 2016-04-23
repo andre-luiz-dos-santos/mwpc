@@ -1,46 +1,38 @@
-'use strict';
-
+"use strict";
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const http = require('http');
-const socketio = require('socket.io');
-const platform = require('./platform');
-const confdir = path.join(__dirname, '..', 'configuration');
-
+const socketIO = require('socket.io');
+const platform_1 = require('./platform');
 const app = express();
-const httpd = http.Server(app);
-const io = socketio(httpd, {pingInterval: 1000, pingTimeout: 2500});
-
+const httpd = http.createServer(app);
+const io = socketIO(httpd, { pingInterval: 1000, pingTimeout: 2500 });
+const confdir = path.join(__dirname, '..', 'configuration');
 app.use(express.static(confdir));
 app.use(express.static(`${__dirname}/../browser`));
-
 app.get('/', function (req, res) {
-	res.redirect('/index.html');
+    res.redirect('/index.html');
 });
-
 app.get('/screens', function (req, res) {
-	fs.readdirSync(confdir).forEach(fileName => {
-		if (fileName.startsWith('screen.') && fileName.endsWith('.html')) {
-			const filePath = path.join(confdir, fileName);
-			const html = fs.readFileSync(filePath);
-			res.write(html);
-		}
-	});
-	res.end();
+    fs.readdirSync(confdir).forEach(fileName => {
+        if (/screen\..+\.html/.test(fileName)) {
+            const filePath = path.join(confdir, fileName);
+            const html = fs.readFileSync(filePath);
+            res.write(html);
+        }
+    });
+    res.end();
 });
-
 io.on('connection', function (socket) {
-	socket.on('type', function (text, callback) {
-		platform.type(text);
-		callback();
-	});
+    socket.on('type', function (text, callback) {
+        platform_1.default.type(text);
+        callback();
+    });
 });
-
-platform.browser(function (event, data) {
-	io.emit(event, data);
+platform_1.default.browser(function (event, data) {
+    io.emit(event, data);
 });
-
 httpd.listen(3001, function () {
-	console.log('App listening on port 3001!');
+    console.log('App listening on port 3001!');
 });

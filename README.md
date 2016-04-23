@@ -5,7 +5,6 @@ Simulate a keyboard on the PC using a mobile web browser.
 ## Installation
 
 1. Install [Node](https://nodejs.org/).
-
 2. Clone this repository and then run:
 
 ```
@@ -35,3 +34,12 @@ When to enter full screen mode can be defined in **browser/index.js**.
 ![The first screen: the lower case alphabet](README/alphabet-lowercase.png)
 
 ![Screen for typing Esperanto letters](README/alphabet-esperanto.png)
+
+## TypeScript
+
+To transpile the TypeScript files to JavaScript, run the following commands in the `server` and `windows` directories.
+
+```
+typings install
+tsc
+```
