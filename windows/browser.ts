@@ -41,6 +41,6 @@ fs.readdirSync(__dirname).forEach(fileName => {
 	}
 });
 
-export default function browser(callback) {
+export default function browser(callback: () => void): void {
 	emit = callback;
 }

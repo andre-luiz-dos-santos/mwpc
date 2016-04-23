@@ -29,7 +29,7 @@ app.get('/screens', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-	socket.on('type', function (text, callback) {
+	socket.on('type', function (text: string, callback: () => void) {
 		platform.type(text);
 		callback();
 	});
