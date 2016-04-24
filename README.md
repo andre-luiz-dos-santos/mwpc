@@ -37,9 +37,9 @@ When to enter full screen mode can be defined in **browser/index.js**.
 
 ## TypeScript
 
-To transpile the TypeScript files to JavaScript, run the following commands in the `server` and `windows` directories.
+To transpile the TypeScript files to JavaScript, use Gulp.
 
 ```
-typings install
-tsc
+gulp typings
+gulp ts
 ```
