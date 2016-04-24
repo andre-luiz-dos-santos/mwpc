@@ -4,7 +4,8 @@ let autohotkey;
 function runAutohotkey() {
     autohotkey = child_process_1.spawn('autohotkey.exe', ['type.ahk'], {
         cwd: __dirname,
-        stdio: ['pipe', process.stdout, process.stderr] });
+        stdio: ['pipe', process.stdout, process.stderr]
+    });
     autohotkey.on('exit', (code, signal) => {
         process.stderr.write(`AutoHotkey type.ahk process terminated with exit code ${code} (signal=${signal})\n`);
         setTimeout(runAutohotkey, 1000);

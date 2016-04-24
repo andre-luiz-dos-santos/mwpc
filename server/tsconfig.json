@@ -16,6 +16,11 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": false
     },
+    "formatCodeOptions": {
+        "newLineCharacter": "\n",
+        "convertTabsToSpaces": false,
+        "insertSpaceAfterFunctionKeywordForAnonymousFunctions": true
+    },
     "exclude": [
         "node_modules",
         "typings/browser.d.ts",

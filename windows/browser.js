@@ -6,7 +6,8 @@ let emit;
 function runAutohotkey(ahkFile) {
     const ahkProcess = child_process_1.spawn('autohotkey.exe', [ahkFile], {
         cwd: __dirname,
-        stdio: ['ignore', 'pipe', process.stderr] });
+        stdio: ['ignore', 'pipe', process.stderr]
+    });
     ahkProcess.on('exit', (code, signal) => {
         process.stderr.write(`AutoHotkey ${ahkFile} process terminated with exit code ${code} (signal=${signal})\n`);
         setTimeout(() => { runAutohotkey(ahkFile); }, 1000);

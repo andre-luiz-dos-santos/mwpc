@@ -7,7 +7,7 @@ import platform from './platform';
 
 const app = express();
 const httpd = http.createServer(app)
-const io = socketIO(httpd, {pingInterval: 1000, pingTimeout: 2500});
+const io = socketIO(httpd, { pingInterval: 1000, pingTimeout: 2500 });
 
 const confdir = path.join(__dirname, '..', 'configuration');
 app.use(express.static(confdir));

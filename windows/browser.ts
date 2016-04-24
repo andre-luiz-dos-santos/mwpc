@@ -9,7 +9,8 @@ let emit: IPlatformBrowserCallbackFunction;
 function runAutohotkey(ahkFile: string): void {
 	const ahkProcess = spawn('autohotkey.exe', [ahkFile], {
 		cwd: __dirname,
-		stdio: ['ignore', 'pipe', process.stderr]});
+		stdio: ['ignore', 'pipe', process.stderr]
+	});
 	ahkProcess.on('exit', (code: number, signal: string): void => {
 		process.stderr.write(`AutoHotkey ${ahkFile} process terminated with exit code ${code} (signal=${signal})\n`);
 		setTimeout(() => { runAutohotkey(ahkFile) }, 1000);
