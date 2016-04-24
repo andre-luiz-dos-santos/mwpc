@@ -1,31 +1,24 @@
-'use strict';
-
-// Play the file beep.wav.
-// http://www.html5rocks.com/en/tutorials/webaudio/intro/
-const beep = (() => {
-	const context = new AudioContext();
-
-	let beepBuffer;
-	{
-		const request = new XMLHttpRequest();
-		request.open('GET', 'beep.wav', true);
-		request.responseType = 'arraybuffer';
-		request.onload = () => {
-			context.decodeAudioData(request.response,
-				buffer => { beepBuffer = buffer },
-				err => { alert(`The file beep.wav could not be downloaded or decoded.\nError: ${err}`) });
-		}
-		request.send();
-	}
-
-	return function () {
-		try {
-			const source = context.createBufferSource();
-			source.buffer = beepBuffer;
-			source.connect(context.destination);
-			source.start(0);
-		} catch (e) {
-			console.log(`beep: ${e}`);
-		}
-	}
+var beep = (function () {
+    var context = new AudioContext();
+    var beepBuffer;
+    {
+        var request_1 = new XMLHttpRequest();
+        request_1.open('GET', 'beep.wav', true);
+        request_1.responseType = 'arraybuffer';
+        request_1.onload = function () {
+            context.decodeAudioData(request_1.response, function (buffer) { beepBuffer = buffer; }, function (err) { alert("The file beep.wav could not be downloaded or decoded.\nError: " + err); });
+        };
+        request_1.send();
+    }
+    return function () {
+        try {
+            var source = context.createBufferSource();
+            source.buffer = beepBuffer;
+            source.connect(context.destination);
+            source.start(0);
+        }
+        catch (e) {
+            console.log("beep: " + e);
+        }
+    };
 })();

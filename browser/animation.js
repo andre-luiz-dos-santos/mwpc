@@ -1,32 +1,24 @@
-'use strict';
-
 function animateKeyElement(animationName, element) {
-	const pos = element.position();
-	const clone = element.clone();
-	clone.css({left: pos.left, top: 0, width: element.width(), height: element.height()});
-	clone.appendTo('#fullscreen');
-	clone.addClass(`start animation ${animationName}`);
-	element.data('animation', clone);
+    var pos = element.position();
+    var clone = element.clone();
+    clone.css({ left: pos.left, top: 0, width: element.width(), height: element.height() });
+    clone.appendTo('#fullscreen');
+    clone.addClass("start animation " + animationName);
+    element.data('animation', clone);
 }
-
-// Return true after ‘startAnimation’ and before ‘stopAnimation’ is called.
 function hasAnimationElement(element) {
-	return element.data('animation') != null;
+    return element.data('animation') != null;
 }
-
-// Return jQuery object with the animation element or empty.
 function getAnimationElement(element) {
-	return element.data('animation') || $();
+    return element.data('animation') || $();
 }
-
 function startAnimation(element) {
-	animateKeyElement('touch', element);
+    animateKeyElement('touch', element);
 }
-
 function stopAnimation(element) {
-	const animation = getAnimationElement(element);
-	animation.removeClass('start');
-	animation.addClass('end');
-	element.removeData('animation');
-	setTimeout(() => { animation.remove() }, 1500);
+    var animation = getAnimationElement(element);
+    animation.removeClass('start');
+    animation.addClass('end');
+    element.removeData('animation');
+    setTimeout(function () { animation.remove(); }, 1500);
 }
