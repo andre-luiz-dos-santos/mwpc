@@ -17,7 +17,7 @@ function runAutohotkey(ahkFile: string): void {
 	});
 	ahkProcess.stdout.pipe(splitter()).on('data', (line: Buffer) => {
 		try {
-			const event: { name: string, value: string } =
+			const event: { name: string, value: any } =
 				JSON.parse(line.toString('utf8'));
 			emit(event.name, event.value);
 		} catch (err) {
