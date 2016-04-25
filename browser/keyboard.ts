@@ -1,3 +1,6 @@
+import {runElementCommands} from './run';
+import {startAnimation, stopAnimation, hasAnimationElement} from './animation';
+
 $(() => {
 	/**
 	 * ‘element’ was touched or clicked.
@@ -143,8 +146,8 @@ $(() => {
 });
 
 // Helper function for keyboard screens.
-const quickKeyboardScreen = (() => {
-	return function (quick: JQuery, quicklyBackTo = 'alphabet-lowercase') {
+window.quickKeyboardScreen = (() => {
+	return function (quick: JQuery, quicklyBackTo = 'alphabet-lowercase'): void {
 		const clone = quick.clone(); // permanently uppercase
 		clone.attr('id', removeSuffix(quick.attr('id')));
 		clone.find('[data-screen]').each(function () { removeAttrSuffix($(this), 'data-screen') });

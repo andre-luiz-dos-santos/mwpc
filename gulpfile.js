@@ -1,6 +1,9 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var gulpTypings = require("gulp-typings");
+var webpack = require('webpack');
+var webpackStream = require('webpack-stream');
+var del = require('del');
 
 // XXX ntypescript is the version used by the TypeScript Atom plugin.
 //     It currently has a newer version of TypeScript that fixes issues
@@ -13,19 +16,19 @@ var browserTypeScriptProject = ts.createProject('browser/tsconfig.json', { types
 gulp.task('ts/server', function () {
 	return serverTypeScriptProject.src()
 		.pipe(ts(serverTypeScriptProject))
-		.pipe(gulp.dest('server'));
+		.pipe(gulp.dest('build/server'));
 });
 gulp.task('ts/windows', function () {
 	return windowsTypeScriptProject.src()
 		.pipe(ts(windowsTypeScriptProject))
-		.pipe(gulp.dest('windows'));
+		.pipe(gulp.dest('build/windows'));
 });
 gulp.task('ts/browser', function () {
 	return browserTypeScriptProject.src()
 		.pipe(ts(browserTypeScriptProject))
-		.pipe(gulp.dest('browser'));
+		.pipe(gulp.dest('tmp/browser'));
 });
-gulp.task('ts', ['ts/server', 'ts/windows', 'ts/browser']);
+gulp.task('ts', ['ts/server', 'ts/windows']);
 
 gulp.task('typings/server', function () {
 	return gulp.src('server/typings.json')
@@ -41,4 +44,41 @@ gulp.task('typings/browser', function () {
 })
 gulp.task('typings', ['typings/server', 'typings/windows', 'typings/browser']);
 
-gulp.task('default', ['ts']);
+gulp.task('browser', ['ts/browser'], function () {
+	return gulp.src('tmp/browser/index.js')
+		.pipe(webpackStream({
+			output: {
+				filename: 'webpack.js'
+			},
+			plugins: [
+				new webpack.optimize.OccurrenceOrderPlugin(),
+				new webpack.optimize.UglifyJsPlugin({
+					comments: false,
+					compress: {
+						warnings: false
+					}
+				})
+			]
+		}, webpack))
+		.pipe(gulp.dest('build/browser'));
+})
+
+gulp.task('copy/browser', function () {
+	return gulp.src(['browser/**/*.{css,html}'])
+		.pipe(gulp.dest('build/browser'));
+})
+gulp.task('copy/windows', function () {
+	return gulp.src(['windows/*.{ahk,exe}'])
+		.pipe(gulp.dest('build/windows'));
+})
+gulp.task('copy', ['copy/browser', 'copy/windows']);
+
+gulp.task('clean', function () {
+	return del([
+		'build/server',
+		'build/windows',
+		'build/browser'
+	]);
+});
+
+gulp.task('default', ['ts', 'browser', 'copy']);

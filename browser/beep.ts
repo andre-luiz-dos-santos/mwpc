@@ -1,6 +1,6 @@
 // Play the file beep.wav.
 // http://www.html5rocks.com/en/tutorials/webaudio/intro/
-const beep = (() => {
+window.beep = (() => {
 	const context = new AudioContext();
 
 	let beepBuffer: any;

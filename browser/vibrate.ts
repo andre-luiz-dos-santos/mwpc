@@ -1,5 +1,5 @@
 // Vibrate the device.
-const vibrate = (
+window.vibrate = (
 	(() => {
 		if (typeof navigator.vibrate !== 'function') {
 			console.log("'navigator.vibrate' is not a function.");

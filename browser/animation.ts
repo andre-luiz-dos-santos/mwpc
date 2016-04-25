@@ -1,4 +1,4 @@
-function animateKeyElement(animationName: string, element: JQuery): void {
+export function animateKeyElement(animationName: string, element: JQuery): void {
 	const pos = element.position();
 	const clone = element.clone();
 	clone.css({ left: pos.left, top: 0, width: element.width(), height: element.height() });
@@ -10,22 +10,22 @@ function animateKeyElement(animationName: string, element: JQuery): void {
 /**
  * Return true after ‘startAnimation’ and before ‘stopAnimation’ is called.
  */
-function hasAnimationElement(element: JQuery): boolean {
+export function hasAnimationElement(element: JQuery): boolean {
 	return element.data('animation') != null;
 }
 
 /**
  * Return a new jQuery object with the animation element or empty.
  */
-function getAnimationElement(element: JQuery): JQuery {
+export function getAnimationElement(element: JQuery): JQuery {
 	return element.data('animation') || $();
 }
 
-function startAnimation(element: JQuery): void {
+export function startAnimation(element: JQuery): void {
 	animateKeyElement('touch', element);
 }
 
-function stopAnimation(element: JQuery): void {
+export function stopAnimation(element: JQuery): void {
 	const animation = getAnimationElement(element);
 	animation.removeClass('start');
 	animation.addClass('end');
