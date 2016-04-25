@@ -16,6 +16,8 @@ npm install
 Run `node server/web.js` or `npm start`.
 Then, in the web browser, visit the site on port 3001.
 
+The port can be changed by setting the environment variable `PORT`.
+
 To type an accented letter, touch its base character for 200 milliseconds.
 
 ## Configuration

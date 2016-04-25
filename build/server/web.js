@@ -5,19 +5,21 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 const platform_1 = require('./platform');
+const webPort = parseInt(process.env.PORT || 3001);
+const confDir = path.join(__dirname, '..', 'configuration');
+const browserDir = path.join(__dirname, '..', 'browser');
 const app = express();
 const httpd = http.createServer(app);
 const io = socketIO(httpd, { pingInterval: 1000, pingTimeout: 2500 });
-const confdir = path.join(__dirname, '..', 'configuration');
-app.use(express.static(confdir));
-app.use(express.static(`${__dirname}/../browser`));
+app.use(express.static(confDir));
+app.use(express.static(browserDir));
 app.get('/', function (req, res) {
     res.redirect('/index.html');
 });
 app.get('/screens', function (req, res) {
-    fs.readdirSync(confdir).forEach(fileName => {
+    fs.readdirSync(confDir).forEach(fileName => {
         if (/screen\..+\.html/.test(fileName)) {
-            const filePath = path.join(confdir, fileName);
+            const filePath = path.join(confDir, fileName);
             const html = fs.readFileSync(filePath);
             res.write(html);
         }
@@ -33,6 +35,6 @@ io.on('connection', function (socket) {
 platform_1.default.browser(function (event, data) {
     io.emit(event, data);
 });
-httpd.listen(3001, function () {
-    console.log('App listening on port 3001!');
+httpd.listen(webPort, function () {
+    console.log(`App listening on port ${webPort}!`);
 });
