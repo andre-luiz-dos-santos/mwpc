@@ -13,7 +13,7 @@ npm install
 
 ## Usage
 
-Run `node server/web.js` or `npm start`.
+Run `node build/server/web.js` or `npm start`.
 Then, in the web browser, visit the site on port 3001.
 
 The port can be changed by setting the environment variable `PORT`.
