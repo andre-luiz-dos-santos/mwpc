@@ -11,7 +11,6 @@ var del = require('del');
 //     The current version of the TypeScript package is 1.8.10.
 var serverTypeScriptProject = ts.createProject('server/tsconfig.json', { typescript: require('ntypescript') });
 var windowsTypeScriptProject = ts.createProject('windows/tsconfig.json', { typescript: require('ntypescript') });
-var browserTypeScriptProject = ts.createProject('browser/tsconfig.json', { typescript: require('ntypescript') });
 
 gulp.task('ts/server', function () {
 	return serverTypeScriptProject.src()
@@ -22,11 +21,6 @@ gulp.task('ts/windows', function () {
 	return windowsTypeScriptProject.src()
 		.pipe(ts(windowsTypeScriptProject))
 		.pipe(gulp.dest('build/windows'));
-});
-gulp.task('ts/browser', function () {
-	return browserTypeScriptProject.src()
-		.pipe(ts(browserTypeScriptProject))
-		.pipe(gulp.dest('tmp/browser'));
 });
 gulp.task('ts', ['ts/server', 'ts/windows']);
 
@@ -44,11 +38,19 @@ gulp.task('typings/browser', function () {
 })
 gulp.task('typings', ['typings/server', 'typings/windows', 'typings/browser']);
 
-gulp.task('browser', ['ts/browser'], function () {
-	return gulp.src('tmp/browser/index.js')
+gulp.task('browser', function () {
+	return gulp.src('browser/index.ts')
 		.pipe(webpackStream({
 			output: {
 				filename: 'webpack.js'
+			},
+			resolve: {
+				extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+			},
+			module: {
+				loaders: [
+					{ test: /\.tsx?$/, loader: 'ts-loader?compiler=ntypescript' }
+				]
 			},
 			plugins: [
 				new webpack.optimize.OccurrenceOrderPlugin(),

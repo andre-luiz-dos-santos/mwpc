@@ -37,9 +37,8 @@ When to enter full screen mode can be defined in **build/browser/index.js**.
 
 ## TypeScript
 
-To transpile the TypeScript files to JavaScript, use Gulp.
-
+To rebuild all files in the `build` directory:
 ```
-gulp typings
-gulp ts
+npm run build
 ```
+The `configuration` directory must be copied manually.
