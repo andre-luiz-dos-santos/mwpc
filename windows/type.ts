@@ -1,6 +1,6 @@
 import {spawn, ChildProcess} from 'child_process';
 
-let autohotkey: ChildProcess;
+let autohotkey: ChildProcess | undefined;
 
 function runAutohotkey(): void {
 	autohotkey = spawn('autohotkey.exe', ['type.ahk'], {

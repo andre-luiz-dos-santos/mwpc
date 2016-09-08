@@ -5,12 +5,8 @@ var webpack = require('webpack');
 var webpackStream = require('webpack-stream');
 var del = require('del');
 
-// XXX ntypescript is the version used by the TypeScript Atom plugin.
-//     It currently has a newer version of TypeScript that fixes issues
-//     with ‘DecodeErrorCallback’ and ‘changedTouches’.
-//     The current version of the TypeScript package is 1.8.10.
-var serverTypeScriptProject = ts.createProject('server/tsconfig.json', { typescript: require('ntypescript') });
-var windowsTypeScriptProject = ts.createProject('windows/tsconfig.json', { typescript: require('ntypescript') });
+var serverTypeScriptProject = ts.createProject('server/tsconfig.json', { typescript: require('typescript') });
+var windowsTypeScriptProject = ts.createProject('windows/tsconfig.json', { typescript: require('typescript') });
 
 gulp.task('ts/server', function () {
 	return serverTypeScriptProject.src()
@@ -49,7 +45,7 @@ gulp.task('browser', function () {
 			},
 			module: {
 				loaders: [
-					{ test: /\.tsx?$/, loader: 'ts-loader?compiler=ntypescript' }
+					{ test: /\.tsx?$/, loader: 'ts-loader' }
 				]
 			},
 			plugins: [

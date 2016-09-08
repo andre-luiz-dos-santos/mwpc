@@ -14,7 +14,8 @@
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": false
+        "suppressImplicitAnyIndexErrors": false,
+        "strictNullChecks": true
     },
     "formatCodeOptions": {
         "newLineCharacter": "\n",
