@@ -4,7 +4,7 @@ import {spawn, ChildProcess} from 'child_process';
 const splitter: () => NodeJS.ReadWriteStream =
 	require('binary-split');
 
-let emit: IPlatformBrowserCallbackFunction;
+let emit: IPlatformBrowserCallbackFunction | undefined;
 
 function runAutohotkey(ahkFile: string): void {
 	const ahkProcess = spawn('autohotkey.exe', [ahkFile], {
@@ -16,6 +16,9 @@ function runAutohotkey(ahkFile: string): void {
 		setTimeout(() => { runAutohotkey(ahkFile) }, 1000);
 	});
 	ahkProcess.stdout.pipe(splitter()).on('data', (line: Buffer) => {
+		if (!emit) {
+			return;
+		}
 		try {
 			const event: { name: string, value: any } =
 				JSON.parse(line.toString('utf8'));
