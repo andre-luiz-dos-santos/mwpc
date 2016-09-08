@@ -1,6 +1,6 @@
 {
-  "ambientDependencies": {
-    "node": "registry:dt/node#4.0.0+20160412142033",
-    "mwpc": "file:../mwpc.d.ts"
+  "globalDependencies": {
+    "mwpc": "file:../mwpc.d.ts",
+    "node": "registry:dt/node#6.0.0+20160907173219"
   }
 }

@@ -1,11 +1,11 @@
 {
-  "ambientDependencies": {
-    "express": "registry:dt/express#4.0.0+20160317120654",
-    "express-serve-static-core": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/7de6c3dd94feaeb21f20054b9f30d5dabc5efabd/express-serve-static-core/express-serve-static-core.d.ts",
-    "mime": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/7de6c3dd94feaeb21f20054b9f30d5dabc5efabd/mime/mime.d.ts",
+  "globalDependencies": {
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160829034835",
+    "mime": "registry:dt/mime#0.0.0+20160316155526",
     "mwpc": "file:../mwpc.d.ts",
-    "node": "registry:dt/node#4.0.0+20160412142033",
-    "serve-static": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/7de6c3dd94feaeb21f20054b9f30d5dabc5efabd/serve-static/serve-static.d.ts",
-    "socket.io": "registry:dt/socket.io#1.4.4+20160317120654"
+    "node": "registry:dt/node#6.0.0+20160907173219",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "socket.io": "registry:dt/socket.io#1.4.4+20160907102948"
   }
 }
