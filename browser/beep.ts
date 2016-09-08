@@ -12,7 +12,7 @@ window.beep = (() => {
 			context.decodeAudioData(request.response,
 				buffer => { beepBuffer = buffer },
 				err => { alert(`The file beep.wav could not be downloaded or decoded.\nError: ${err}`) });
-		}
+		};
 		request.send();
 	}
 

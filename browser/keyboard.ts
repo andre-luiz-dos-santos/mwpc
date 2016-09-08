@@ -154,7 +154,7 @@ window.quickKeyboardScreen = (() => {
 		clone.find(`[data-screen="${screenName(clone)}"]`).attr('data-screen', quicklyBackTo);
 		clone.insertAfter(quick);
 		quick.find('.key').not('[data-screen]').attr('data-screen', quicklyBackTo);
-	}
+	};
 
 	function removeSuffix(name: string): string {
 		return name.replace(/-quick$/, '');

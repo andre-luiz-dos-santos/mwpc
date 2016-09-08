@@ -34,6 +34,6 @@ fs.readdirSync(__dirname).forEach(fileName => {
 
 const main: IPlatformBrowserFunction = function (callback) {
 	emit = callback;
-}
+};
 
 export default main;

@@ -22,6 +22,6 @@ const main: IPlatformTypeFunction = function (text) {
 	} else {
 		process.stdout.write(`AutoHotkey type.ahk process is not running yet.\n`);
 	}
-}
+};
 
 export default main;

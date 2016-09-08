@@ -23,15 +23,15 @@ gulp.task('ts', ['ts/server', 'ts/windows']);
 gulp.task('typings/server', function () {
 	return gulp.src('server/typings.json')
 		.pipe(gulpTypings());
-})
+});
 gulp.task('typings/windows', function () {
 	return gulp.src('windows/typings.json')
 		.pipe(gulpTypings());
-})
+});
 gulp.task('typings/browser', function () {
 	return gulp.src('browser/typings.json')
 		.pipe(gulpTypings());
-})
+});
 gulp.task('typings', ['typings/server', 'typings/windows', 'typings/browser']);
 
 gulp.task('browser', function () {
@@ -59,16 +59,16 @@ gulp.task('browser', function () {
 			]
 		}, webpack))
 		.pipe(gulp.dest('build/browser'));
-})
+});
 
 gulp.task('copy/browser', function () {
 	return gulp.src(['browser/**/*.{css,html}'])
 		.pipe(gulp.dest('build/browser'));
-})
+});
 gulp.task('copy/windows', function () {
 	return gulp.src(['windows/*.{ahk,exe}'])
 		.pipe(gulp.dest('build/windows'));
-})
+});
 gulp.task('copy', ['copy/browser', 'copy/windows']);
 
 gulp.task('clean', function () {

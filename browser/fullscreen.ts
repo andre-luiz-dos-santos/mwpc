@@ -11,4 +11,4 @@ $.fn.fullscreen = function (): void {
 			this.mozRequestFullScreen();
 		}
 	});
-}
+};
