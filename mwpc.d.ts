@@ -1,5 +1,5 @@
 interface IPlatformTypeFunction {
-  (text: string): void;
+	(text: string): void;
 }
 
 interface IPlatformBrowserCallbackFunction {
@@ -7,7 +7,7 @@ interface IPlatformBrowserCallbackFunction {
 }
 
 interface IPlatformBrowserFunction {
-  (callback: IPlatformBrowserCallbackFunction): void;
+	(callback: IPlatformBrowserCallbackFunction): void;
 }
 
 interface IPlatform {
