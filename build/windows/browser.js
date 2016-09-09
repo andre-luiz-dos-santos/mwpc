@@ -13,6 +13,9 @@ function runAutohotkey(ahkFile) {
         setTimeout(() => { runAutohotkey(ahkFile); }, 1000);
     });
     ahkProcess.stdout.pipe(splitter()).on('data', (line) => {
+        if (!emit) {
+            return;
+        }
         try {
             const event = JSON.parse(line.toString('utf8'));
             emit(event.name, event.value);
