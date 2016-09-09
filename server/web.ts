@@ -6,7 +6,7 @@ import * as socketIO from 'socket.io';
 import platform from './platform';
 
 const webPort = parseInt(process.env.PORT || 3001);
-const confDir = path.join(__dirname, '..', 'configuration');
+const confDir = path.join(__dirname, '..', 'configuration', process.platform);
 const browserDir = path.join(__dirname, '..', 'browser');
 
 const app = express();

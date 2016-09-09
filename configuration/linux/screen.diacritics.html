@@ -1,0 +1,55 @@
+<div id="diacritics-placeholder"></div>
+<script type="text/javascript">
+	'use strict';
+
+	// http://unicode-table.com/en/
+	const keyboards = {
+		'a'                   : [ [97,  224, 225, 226], [227, 228, 229, 230] ],
+		'a-uppercase'         : [ [65,  192, 193, 194], [195, 196, 197, 198] ],
+		'e'                   : [ [101, 232, 233, 234, 235]                  ],
+		'e-uppercase'         : [ [69,  200, 201, 202, 203]                  ],
+		'i'                   : [ [105, 236, 237, 238, 239]                  ],
+		'i-uppercase'         : [ [73,  204, 205, 206, 207]                  ],
+		'o'                   : [ [111, 242, 243], [244, 245, 246]           ],
+		'o-uppercase'         : [ [79,  210, 211], [212, 213, 214]           ],
+		'u'                   : [ [117, 249, 250], [251, 252, 365]           ],
+		'u-uppercase'         : [ [85,  217, 218], [219, 220, 364]           ],
+		'c'                   : [ [99,  231, 265]                            ],
+		'c-uppercase'         : [ [67,  199, 264]                            ],
+		'esperanto'           : [ [265, 285, 293], [309, 349, 365]           ],
+		'esperanto-uppercase' : [ [264, 284, 292], [308, 348, 364]           ]
+	};
+
+	const placeholder = $('#diacritics-placeholder');
+
+	for (const id in keyboards) {
+		const isUppercase = id.endsWith('-uppercase');
+		const screenName = `alphabet-${id}`;
+		const elementId = `screen-${screenName}`;
+		const keyboard = $(`<div class="keyboard screen" id="${elementId}">`);
+
+		for (const codepoints of keyboards[id]) {
+			const row = $('<div class="keyrow">');
+			for (const cp of codepoints) {
+				const key = $(`<div class="key">`);
+				key.attr('data-type', `key U00${cp.toString(16)}`);
+				key.html(`&#${cp};`);
+				key.appendTo(row);
+			}
+			row.appendTo(keyboard);
+		}
+
+		keyboard.append('<div class="keyrow small"><div class="key small-label">Back</div></div>');
+		keyboard.find('.key').attr('data-screen', `alphabet-${isUppercase ? 'uppercase' : 'lowercase'}`);
+		keyboard.insertAfter(placeholder);
+
+		if (isUppercase) {
+			const quick = keyboard.clone();
+			quick.attr('id', `${elementId}-quick`);
+			quick.find('[data-screen="alphabet-uppercase"]').attr('data-screen', 'alphabet-lowercase');
+			quick.insertAfter(placeholder);
+		}
+	}
+
+	placeholder.remove();
+</script>
