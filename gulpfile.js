@@ -5,34 +5,25 @@ var webpack = require('webpack');
 var webpackStream = require('webpack-stream');
 var del = require('del');
 
-var serverTypeScriptProject = ts.createProject('server/tsconfig.json', { typescript: require('typescript') });
-var windowsTypeScriptProject = ts.createProject('windows/tsconfig.json', { typescript: require('typescript') });
+gulp.task('ts', ['server', 'linux', 'windows'].map(function (dir) {
+	let taskName = `ts/${dir}`;
+	let typescriptProject = ts.createProject(`${dir}/tsconfig.json`, { typescript: require('typescript') });
+	gulp.task(taskName, function () {
+		return typescriptProject.src()
+			.pipe(ts(typescriptProject))
+			.pipe(gulp.dest(`build/${dir}`))
+	});
+	return taskName;
+}));
 
-gulp.task('ts/server', function () {
-	return serverTypeScriptProject.src()
-		.pipe(ts(serverTypeScriptProject))
-		.pipe(gulp.dest('build/server'));
-});
-gulp.task('ts/windows', function () {
-	return windowsTypeScriptProject.src()
-		.pipe(ts(windowsTypeScriptProject))
-		.pipe(gulp.dest('build/windows'));
-});
-gulp.task('ts', ['ts/server', 'ts/windows']);
-
-gulp.task('typings/server', function () {
-	return gulp.src('server/typings.json')
-		.pipe(gulpTypings());
-});
-gulp.task('typings/windows', function () {
-	return gulp.src('windows/typings.json')
-		.pipe(gulpTypings());
-});
-gulp.task('typings/browser', function () {
-	return gulp.src('browser/typings.json')
-		.pipe(gulpTypings());
-});
-gulp.task('typings', ['typings/server', 'typings/windows', 'typings/browser']);
+gulp.task('typings', ['server', 'linux', 'windows', 'browser'].map(function (dir) {
+	let taskName = `typings/${dir}`;
+	gulp.task(taskName, function () {
+		return gulp.src(`${dir}/typings.json`)
+			.pipe(gulpTypings());
+	});
+	return taskName;
+}));
 
 gulp.task('browser', function () {
 	return gulp.src('browser/index.ts')
@@ -74,6 +65,7 @@ gulp.task('copy', ['copy/browser', 'copy/windows']);
 gulp.task('clean', function () {
 	return del([
 		'build/server',
+		'build/linux',
 		'build/windows',
 		'build/browser'
 	]);

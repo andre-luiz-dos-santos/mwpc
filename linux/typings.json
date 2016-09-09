@@ -1,0 +1,6 @@
+{
+	"globalDependencies": {
+		"mwpc": "file:../mwpc.d.ts",
+		"node": "registry:dt/node#6.0.0+20160907173219"
+	}
+}
