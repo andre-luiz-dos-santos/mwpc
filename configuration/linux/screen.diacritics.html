@@ -32,7 +32,8 @@
 			const row = $('<div class="keyrow">');
 			for (const cp of codepoints) {
 				const key = $(`<div class="key">`);
-				key.attr('data-type', `key U00${cp.toString(16)}`);
+				const shift = (isUppercase ? 'shift+' : '');
+				key.attr('data-type', `key ${shift}U00${cp.toString(16)}`);
 				key.html(`&#${cp};`);
 				key.appendTo(row);
 			}
