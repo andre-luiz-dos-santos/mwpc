@@ -1,0 +1,8 @@
+{
+    "short_name": "MWPC",
+    "name": "Mobile Web Pc Control",
+    "start_url": "/index.html",
+    "display": "fullscreen",
+    "orientation": "landscape"
+  }
+  

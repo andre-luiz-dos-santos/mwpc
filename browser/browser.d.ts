@@ -8,7 +8,3 @@ interface Window {
 	vibrate: () => void;
 	quickKeyboardScreen: (quick: JQuery, quicklyBackTo: string) => void;
 }
-
-interface JQuery {
-	fullscreen: () => void;
-}

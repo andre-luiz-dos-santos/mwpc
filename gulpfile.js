@@ -55,7 +55,7 @@ gulp.task('browser', function () {
 });
 
 gulp.task('copy/browser', function () {
-	return gulp.src(['browser/**/*.{css,html}'])
+	return gulp.src(['browser/**/*.{css,html}', 'browser/manifest.json'])
 		.pipe(gulp.dest('build/browser'));
 });
 gulp.task('copy/windows', function () {
