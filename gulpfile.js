@@ -1,3 +1,5 @@
+"use strict";
+
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var gulpTypings = require("gulp-typings");
