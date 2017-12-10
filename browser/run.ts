@@ -25,6 +25,19 @@ export function runElementCommands(element: JQuery) {
 	if (typeof screenName === 'string') {
 		switchScreen(screenName);
 	}
+	const textareaId = element.data('textbox');
+	if (typeof textareaId === 'string') {
+		const textareaEl = $('#'+textareaId);
+		const text = textareaEl.val();
+		typeText(`textarea ${text}`, () => {
+			textareaEl.val('');
+			try {
+				onTyped()
+			} catch (e) {
+				console.log(`onTyped: ${e}`);
+			}
+		});
+	}
 }
 
 function typeText(text: string, callback: () => void) {

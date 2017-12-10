@@ -44,3 +44,7 @@ To rebuild all files in the `build` directory:
 npm run build
 ```
 The `configuration` directory must be copied manually.
+
+## uinput (Linux)
+
+To discover the uinput keycodes, on the console, type `dumpkeys | grep ^keycode`.
