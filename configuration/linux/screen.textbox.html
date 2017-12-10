@@ -1,0 +1,83 @@
+<div class="keyboard screen" id="screen-textbox">
+
+	<textarea id="screen-textbox-textarea"></textarea>
+
+	<div id="screen-textbox-type" class="key small-label" data-textbox="screen-textbox-textarea">Type</div>
+	<div id="screen-textbox-lower" class="key small-label" data-screen="alphabet-lowercase">N</div>
+	<div id="screen-textbox-enter" class="key small-label" data-type="key Return">Enter</div>
+
+</div>
+
+<style>
+
+	#screen-textbox-textarea {
+		grid-area: textarea;
+	}
+
+	#screen-textbox-type {
+		grid-area: type;
+	}
+
+	#screen-textbox-lower {
+		grid-area: lower;
+	}
+
+	#screen-textbox-enter {
+		grid-area: enter;
+	}
+
+	/*@media screen and (orientation:portrait) {*/
+
+		#screen-textbox .key {
+			font-size: 1.8em;
+		}
+
+		#screen-textbox {
+			display: grid;
+			grid-template-rows: auto 2.2em;
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-areas:
+				"textarea textarea textarea"
+				"type lower enter";
+		}
+
+	/*}*/
+
+	/*
+	@media screen and (orientation:landscape) {
+
+		#screen-textbox {
+			display: grid;
+			grid-template-rows: repeat(3, 1fr);
+			grid-template-columns: 9fr 1fr;
+			grid-template-areas:
+				"textarea type"
+				"textarea lower"
+				"textarea enter";
+		}
+
+	}
+	*/
+
+	@media screen and (max-height: 6em) {
+
+		#screen-textbox .key {
+			font-size: 28px;
+		}
+
+		/* Grid Container */
+		#screen-textbox {
+			display: grid;
+			grid-template-rows: 1fr;
+			grid-template-columns: 1fr 8fr 1fr;
+			grid-template-areas:
+				"lower textarea type";
+		}
+
+		#screen-textbox-enter {
+			display: none;
+		}
+
+	}
+
+</style>
