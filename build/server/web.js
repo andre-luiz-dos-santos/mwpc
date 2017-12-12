@@ -28,8 +28,7 @@ app.get('/screens', function (req, res) {
 });
 io.on('connection', function (socket) {
     socket.on('type', function (text, callback) {
-        platform_1.default.type(text);
-        callback();
+        platform_1.default.type(text, callback);
     });
     socket.on('hidden', () => {
         socket.disconnect(true);

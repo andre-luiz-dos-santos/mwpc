@@ -26,7 +26,7 @@ function uinput(text) {
     }
     return false;
 }
-function pasteText(text) {
+function pasteText(text, callback) {
     try {
         const pid = child_process_1.spawn('xclip', ['-in', '-selection', 'clipboard'], {
             stdio: ['pipe', 'inherit', 'inherit']
@@ -36,6 +36,7 @@ function pasteText(text) {
         });
         pid.on('exit', () => {
             xdotool('key ctrl+v');
+            callback();
         });
         pid.stdin.end(text);
     }
@@ -43,21 +44,23 @@ function pasteText(text) {
         process.stderr.write(`xclip spawn: ${err}\n`);
     }
 }
-const main = function (text) {
+const main = function (text, callback) {
     let match;
     match = /^textarea ([^]*)$/.exec(text);
     if (match != null) {
-        pasteText(match[1]);
+        pasteText(match[1], callback);
         return;
     }
     match = /^(.*?)\buinput\s+(.*)/.exec(text);
     if (match != null) {
         if (uinput(match[2])) {
+            callback();
             return;
         }
         text = match[1];
     }
     xdotool(text);
+    callback();
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = main;

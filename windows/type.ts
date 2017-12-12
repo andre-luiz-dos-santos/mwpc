@@ -16,9 +16,10 @@ function runAutohotkey(): void {
 
 runAutohotkey();
 
-const main: IPlatformTypeFunction = function (text) {
+const main: IPlatformTypeFunction = function (text, callback) {
 	if (autohotkey !== undefined) {
 		autohotkey.stdin.write(`${text}\n`);
+		callback();
 	} else {
 		process.stdout.write(`AutoHotkey type.ahk process is not running yet.\n`);
 	}

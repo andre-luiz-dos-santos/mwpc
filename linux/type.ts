@@ -27,7 +27,7 @@ function uinput(text: string): boolean {
 	return false;
 }
 
-function pasteText(text: string): void {
+function pasteText(text: string, callback: IPlatformTypeCallbackFunction): void {
 	try {
 		const pid = spawn('xclip', ['-in', '-selection', 'clipboard'], {
 			stdio: ['pipe', 'inherit', 'inherit']
@@ -37,6 +37,7 @@ function pasteText(text: string): void {
 		});
 		pid.on('exit', () => {
 			xdotool('key ctrl+v');
+			callback();
 		});
 		pid.stdin.end(text);
 	} catch (err) {
@@ -44,21 +45,23 @@ function pasteText(text: string): void {
 	}
 }
 
-const main: IPlatformTypeFunction = function (text) {
+const main: IPlatformTypeFunction = function (text, callback) {
 	let match: RegExpMatchArray | null;
 	match = /^textarea ([^]*)$/.exec(text);
 	if (match != null) {
-		pasteText(match[1]);
+		pasteText(match[1], callback);
 		return
 	}
 	match = /^(.*?)\buinput\s+(.*)/.exec(text);
 	if (match != null) {
 		if (uinput(match[2])) {
+			callback();
 			return;
 		}
 		text = match[1];
 	}
 	xdotool(text);
+	callback();
 };
 
 export default main;
