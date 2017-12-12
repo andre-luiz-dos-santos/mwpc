@@ -5,6 +5,7 @@ const socket = io();
 /**
  * Recognized element attributes:
  * data-type: Send text to server on URL /type/.
+ * data-textbox: Send value of input element to URL /type/.
  * data-screen: Switch to another screen.
  */
 export function runElementCommands(element: JQuery) {
