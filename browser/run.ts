@@ -3,6 +3,21 @@ import {getAnimationElement} from './animation';
 const socket = io();
 
 /**
+ * Disconnect the websocket when the page is no longer visible.
+ * Avoids sending ping packets constantly.
+ */
+document.addEventListener("visibilitychange", () => {
+	if (document.hidden) {
+		socket.emit('hidden', () => {
+			socket.disconnect();
+		});
+	} else {
+		socket.connect();
+		socket.emit('visible');
+	}
+});
+
+/**
  * Recognized element attributes:
  * data-type: Send text to server on URL /type/.
  * data-textbox: Send value of input element to URL /type/.
