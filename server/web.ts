@@ -36,6 +36,9 @@ io.on('connection', function (socket) {
 		platform.type(text);
 		callback();
 	});
+	socket.on('hidden', () => {
+		socket.disconnect(true);
+	});
 });
 
 platform.browser(function (event, data) {
